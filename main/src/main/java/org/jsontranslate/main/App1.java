@@ -19,13 +19,11 @@ public class App1 {
 		try {
 	 
 			BufferedReader br = new BufferedReader(
-				new FileReader("C:\\Users\\Marti\\DXAT\\main\\prop.json"));
-	 
-			//convert the json string back to object
-			String xxx="{\"name\": {\"value\": \"s3-eth3\"}}";
-			System.out.println(xxx);
+				new FileReader("C:\\Users\\Marti\\git\\JsonTranslate\\main\\fromcontroller.json"));
+	 			
+			System.out.println(br.toString());
 			Gson gson = new Gson();
-			Name obj = gson.fromJson(xxx, Name.class);
+			EdgePropertiesContainer obj = gson.fromJson(br, EdgePropertiesContainer.class);
 	 
 			System.out.println(obj);
 	 

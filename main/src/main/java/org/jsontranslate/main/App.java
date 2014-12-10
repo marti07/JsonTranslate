@@ -66,9 +66,9 @@ public class App
 			Gson gson = new Gson();
 			 
 			//convert the json string back to object
-			EdgeProperties obj = gson.fromJson(result, EdgeProperties.class);
+			//EdgeProperties obj = gson.fromJson(result, EdgeProperties.class);
  
-			System.out.println(obj);
+			//System.out.println(obj);
 			
 			System.out.println("Gson stop");
 			

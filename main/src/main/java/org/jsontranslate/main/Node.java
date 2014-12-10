@@ -2,7 +2,7 @@ package org.jsontranslate.main;
 
 public class Node {
 
-	String id="";
-	String type ="";
+	private String id;
+	private String type;
 	
 }

@@ -2,6 +2,7 @@ package org.jsontranslate.main;
 
 public class TimeStamp {
 
-	String timestamp ="";
+	private String value;
+	private String name;
 	
 }
