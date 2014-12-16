@@ -1,21 +1,21 @@
-package org.jsontranslate.main;
+package org.jsontranslate.topology;
 
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import java.net.URI;
 import org.apache.http.annotation.NotThreadSafe;
 
 @NotThreadSafe
-class HttpDeleteWithBody extends HttpEntityEnclosingRequestBase {
-    public static final String METHOD_NAME = "DELETE";
+class HttpGetWithBody extends HttpEntityEnclosingRequestBase {
+    public static final String METHOD_NAME = "GET";
     public String getMethod() { return METHOD_NAME; }
 
-    public HttpDeleteWithBody(final String uri) {
+    public HttpGetWithBody(final String uri) {
         super();
         setURI(URI.create(uri));
     }
-    public HttpDeleteWithBody(final URI uri) {
+    public HttpGetWithBody(final URI uri) {
         super();
         setURI(uri);
     }
-    public HttpDeleteWithBody() { super(); }
+    public HttpGetWithBody() { super(); }
 }

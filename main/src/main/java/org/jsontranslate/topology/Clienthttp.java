@@ -1,4 +1,4 @@
-package org.jsontranslate.main;
+package org.jsontranslate.topology;
 
 import java.io.BufferedReader;
 import java.io.IOException;

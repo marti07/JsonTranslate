@@ -1,16 +1,14 @@
 package org.jsontranslate.main;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.codec.binary.Base64;
 import org.jsontranslate.topology.EdgePropertiesContainer;
 import org.jsontranslate.topology.TopologyClass;
 import org.jsontranslate.topology.TopologyEdge;
@@ -19,20 +17,40 @@ import org.jsontranslate.topology.TopologyNode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class App1 {
+public class App2 {
 
 	public static void main(String[] args) {
-		 
+
 		try {
-	 
-			BufferedReader br = new BufferedReader(
-				new FileReader("C:\\Users\\Marti\\git\\JsonTranslate\\main\\fromcontroller.json"));
-	 			
-			System.out.println(br.toString());
+			String webPage = "http://192.168.235.133:8080/controller/nb/v2/topology/default";
+			String name = "admin";
+			String password = "admin";
+
+			String authString = name + ":" + password;
+			System.out.println("auth string: " + authString);
+			byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
+			String authStringEnc = new String(authEncBytes);
+			System.out.println("Base64 encoded auth string: " + authStringEnc);
+
+			URL url = new URL(webPage);
+			URLConnection urlConnection = url.openConnection();
+			urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+			InputStream is = urlConnection.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is);
+
+			int numCharsRead;
+			char[] charArray = new char[1024];
+			StringBuffer sb = new StringBuffer();
+			while ((numCharsRead = isr.read(charArray)) > 0) {
+				sb.append(charArray, 0, numCharsRead);
+			}
+			String result = sb.toString();
+			System.out.println(result);
+			
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			
-			EdgePropertiesContainer edgepropertiescontainer = gson.fromJson(br, EdgePropertiesContainer.class);
-	 
+			EdgePropertiesContainer edgepropertiescontainer = gson.fromJson(result, EdgePropertiesContainer.class);
+			 
 			TopologyClass topo = new TopologyClass();
 			ArrayList<TopologyNode> nodes = new ArrayList<TopologyNode>();
 			ArrayList<TopologyEdge> edges = new ArrayList<TopologyEdge>();
@@ -75,11 +93,17 @@ public class App1 {
 
 			fichero.close();
 			
+			FileWriter fichero2 = new FileWriter("C:\\Users\\Marti\\git\\JsonTranslate\\main\\topologycontroller.json");
+
+			fichero2.write(result);
+
+			fichero2.close();
+			System.out.println("end");
 			
-			System.out.println(json);
-	 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	}
+    	catch(IOException e)
+    	{
+    		System.out.println("Catch");
+    	}
 	}
 }
